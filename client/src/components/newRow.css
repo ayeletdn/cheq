@@ -1,0 +1,20 @@
+.commandsRow {
+    margin-bottom: 1em;
+}
+
+form {
+    width: 850px;
+    margin: 1em;
+    display: none;
+    background-color: beige;
+    padding: 10px;
+}
+
+form.edit {
+    display: block;
+}
+
+.mdl-textfield {
+    padding-right: 10px;
+    width: 200px; /* overwrite mdl */
+}
