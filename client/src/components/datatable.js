@@ -17,6 +17,15 @@ function DataTable(props) {
     
     // Initial data load
     useEffect(() => {
+        // parse headers
+        const readHeaders = values => {
+            if (!(values instanceof Array) || !values.length || values.length === 0) {
+                return [];
+            }
+
+            return Object.keys(values[0]).map(h => [h, FIELD_INPUT_TYPES[props.type][h]]);
+        }
+
         db.get(props.type)
         .then((value, reason) => {
             if (reason) {
@@ -27,15 +36,6 @@ function DataTable(props) {
             setHeaders(readHeaders(value));
         })
     }, [props.type]);
-
-    // parse headers
-    const readHeaders = values => {
-        if (!(values instanceof Array) || !values.length || values.length === 0) {
-            return [];
-        }
-
-        return Object.keys(values[0]).map(h => [h, FIELD_INPUT_TYPES[props.type][h]]);
-    }
 
     const toggleEdit = e => {
         const id = e && e.target ? parseInt(getParentId(e.target)) :editId;
