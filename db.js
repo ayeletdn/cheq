@@ -52,6 +52,20 @@ module.exports = class Database {
         return this.queryPromise(query);
     }
 
+    getOne(table, identifier, id) {
+        if (!this.isConnected) {
+            return Promise.reject(new Error("DB is not conected"));
+        }
+
+        const invalidColumns = invalidColumnNames([identifier]);
+        if (invalidColumns) {
+            return Promise.reject("Invalid column name: " + invalidColumns);
+        }
+
+        const query = 'Select * FROM ' + table + ' WHERE ' + identifier + ' = ? LIMIT 1';
+        return this.queryPromise(query, [id]);
+    }
+
     delete(table, id) {
         if (!this.isConnected) {
             return Promise.reject(new Error("DB is not conected"));
@@ -86,11 +100,9 @@ module.exports = class Database {
         delete rowObj['id'];
         const columns = Object.keys(rowObj);
         
-        // Make sure all column names are valid, 
-        // to protect against injection
-        const invalidColumnName = columns.find(c => c.search(/[^A-Za-z$_\d]/) > -1);
-        if (invalidColumnName) {
-            return Promise.reject("Invalid column name: " + invalidColumnName);
+        const invalidColumns = invalidColumnNames(columns);
+        if (invalidColumns) {
+            return Promise.reject("Invalid column name: " + invalidColumns);
         }
 
         const values = Object.values(rowObj).concat([id]);
@@ -116,6 +128,12 @@ module.exports = class Database {
                 }
             })
         });
+    }
+
+    // Make sure all column names are valid, 
+    // to protect against injection
+    invalidColumnNames = (list) => {
+        return list.find(c => c.search(/[^A-Za-z$_\d]/) > -1);
     }
 
 }
