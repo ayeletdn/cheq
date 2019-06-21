@@ -2,7 +2,7 @@
 const path = require('path');
 const express = require('express');
 // const process = require('process');
-const router = require('./modules/router.js');
+const router = require('./router.js');
 
 const app = express();
 
