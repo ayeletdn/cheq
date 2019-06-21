@@ -132,7 +132,7 @@ module.exports = class Database {
 
     // Make sure all column names are valid, 
     // to protect against injection
-    invalidColumnNames = (list) => {
+    invalidColumnNames(list) {
         return list.find(c => c.search(/[^A-Za-z$_\d]/) > -1);
     }
 
