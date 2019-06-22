@@ -35,6 +35,9 @@ function DataTable(props) {
             setData(value);
             setHeaders(readHeaders(value));
         })
+        .catch(reason => {
+            console.log(`Could not load data: ${reason}`);
+        })
     }, [props.type]);
 
     const toggleEdit = e => {

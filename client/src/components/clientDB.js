@@ -45,6 +45,9 @@ const handleJSONResponse = (response, reason) => {
     if (reason) {
         return Promise.reject(reason);
     }
+    if (response.status !== 200) {
+        return Promise.reject(`Request completed with status code ${response.status}`);
+    }
 
     return response.json();
 }

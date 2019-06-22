@@ -7,6 +7,15 @@ const Database = require('./db.js');
 const db = new Database();
 db.connect();
 
+// middleware to check if user is logged in
+const sessionChecker = (req, res, next) => {
+    if (req.session.user && req.session.user.isLoggedIn) {
+        next();
+    } else {
+        res.status(401).end('Unauthorized access request');
+    }    
+}
+
 const PATH_TO_TABLE = {'vasts': 'vasts', 'keywords': 'keywordlists'};
 // Identify the correct table the request is for
 // and set it on the req object.
@@ -23,8 +32,9 @@ const setTableOnRequest = (req, res, next) => {
 
 router.use(setTableOnRequest);
 
+
 // TODO: Bad habbit to send the error message to the client
-router.get("/", async function(req, res) {
+router.get("/", sessionChecker, async function(req, res) {
     try {
       const data = await db.get(req.table);
       res.end(JSON.stringify(data));
@@ -34,7 +44,7 @@ router.get("/", async function(req, res) {
     }
 });
 
-router.post("/", async function(req, res) {
+router.post("/", sessionChecker, async function(req, res) {
     if (!req.body || !Object.keys(req.body).length) {
         res.status(403).end("Invalid request body: " + req.body);
         return;  
@@ -51,7 +61,7 @@ router.post("/", async function(req, res) {
     }
 });
 
-router.put("/:id", async function(req, res) {
+router.put("/:id", sessionChecker, async function(req, res) {
     if (!req.table || !req.params.id || !req.body || !Object.keys(req.body).length) {
         res.status(403).end("Invalid request data: " + {
             table: req.table,
@@ -70,7 +80,7 @@ router.put("/:id", async function(req, res) {
     }
 });
 
-router.delete("/:id", async function(req, res) {
+router.delete("/:id", sessionChecker, async function(req, res) {
     if (!req.table || !req.params.id) {
         console.log(req.table);
         console.log(req.params.id);

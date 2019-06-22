@@ -57,7 +57,7 @@ module.exports = class Database {
             return Promise.reject(new Error("DB is not conected"));
         }
 
-        const invalidColumns = invalidColumnNames([identifier]);
+        const invalidColumns = this.invalidColumnNames([identifier]);
         if (invalidColumns) {
             return Promise.reject("Invalid column name: " + invalidColumns);
         }
@@ -100,7 +100,7 @@ module.exports = class Database {
         delete rowObj['id'];
         const columns = Object.keys(rowObj);
         
-        const invalidColumns = invalidColumnNames(columns);
+        const invalidColumns = this.invalidColumnNames(columns);
         if (invalidColumns) {
             return Promise.reject("Invalid column name: " + invalidColumns);
         }

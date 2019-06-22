@@ -47,7 +47,7 @@ function NewRow(props) {
             <div className="commandsRow">
                 <button className="mdl-button mdl-js-button mdl-button--raised" onClick={toggleCreate}>Add new row</button>
             </div>
-            <form className={edit ? 'edit' : ''}>
+            <form className={edit ? '' : 'hidden'}>
                 {props.headers
                 .filter(h => {return h !== "id"})
                 .map((header, i) => 

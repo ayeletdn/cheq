@@ -3,15 +3,14 @@
 }
 
 form {
-    width: 850px;
     margin: 1em;
-    display: none;
+    display: block;
     background-color: beige;
     padding: 10px;
 }
 
-form.edit {
-    display: block;
+form.hidden {
+    display: none;
 }
 
 .mdl-textfield {

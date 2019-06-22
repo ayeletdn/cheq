@@ -1,53 +1,37 @@
-import React, {Component} from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
+import Data from './Data.js';
+import Login from './Login.js';
+import auth from './components/clientAuth.js';
+import Register from './Register.js';
 import './App.css';
 
-class App extends Component {
+function App() {
 
-  constructor(props) {
-    super(props);
-    this.state = {url: ""};
-  }
+    const [loggedIn, setLogin] = useState();
 
-  // componentDidMount() {
-  //   fetch("/echo" + document.location.search)
-  //   .then(response => {
-  //     response.json()
-  //     .then(j => {
-  //       console.log(j);
-  //       this.setState({url: j.u});
-  //     })
-  //     .catch(reason => {
-  //       console.log("Could not read response JSON: " + reason);
-  //     });
-  //   })
-  //   .catch(reason => {
-  //     console.log("error calling echo: " + reason);
-  //   });
-  // }
+    useEffect(() => {
+        async function checkLogin() {
+            const login = await auth.isLoggedIn();
+            console.log(`checked login: ${login}`);
+            setLogin(login);    
+        }
 
-  render () {
+        checkLogin();
+    }, [loggedIn]);
+
     return (
-      <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.<br>
-          </br>
-          {this.state.url}
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+        <Router>
+            <div className="app">
+                {loggedIn === false ? <Redirect to="/login"/> : ""}
+                <Switch>
+                    <Route path="/data" component={Data} />
+                    <Route path="/login" component={Login} />
+                    <Route path="/register" component={Register} />
+                </Switch>
+            </div>
+        </Router>
     )
-  }
 }
 
-export default App;
+export default App

@@ -11,3 +11,7 @@ Run `npm install` in the root directory and in the `client` directory.
 ## Run
 
 Run `npm start` in the root directory and the `client` directory.
+
+
+## TODOs
+ - Should paginate data for tables
