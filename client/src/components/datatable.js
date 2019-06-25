@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import db from './clientDB.js';
-import NewRow from './newRow.js';
+import NewRow, {FIELD_INPUT_TYPES} from './newRow.js';
 import './datatable.css';
-
-const FIELD_INPUT_TYPES = {
-    keywords: {id:"number",user_id:"number",name:"text",description:"text",keywords:"text",number_of_keywords:"number",language:"text",is_private:"number",last_modified:"datetime-local",origin_keywords:"text",version:"text",origin_version:"text"},
-    vasts: {id:"number",name:"text",date_created:"datetime-local",description:"text",active:"number",continue_on_click:"number",language:"text",hide_timer:"number",timer_location:"text",skip_button_location:"text",hide_all_ui:"number",hide_play_button:"number",hide_skip_button:"number",fraud:"number",brand_safety:"number",network_id:"number",ad_tag_url:"text",width:"number",height:"number",duration:"number",whitelist_keywords:"text",serve_on_unmeasurable:"number",is_branded:"number",private_brand_safety:"number"}
-}
 
 function DataTable(props) {
 

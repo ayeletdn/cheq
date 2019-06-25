@@ -63,3 +63,4 @@ function NewRow(props) {
 }
 
 export default NewRow;
+export { FIELD_INPUT_TYPES };
